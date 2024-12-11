@@ -1,4 +1,4 @@
-package com.example.FootballBookingSystem.Entity
+package com.example.SportsBookingSystem.Entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

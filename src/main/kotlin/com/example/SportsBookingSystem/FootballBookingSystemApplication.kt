@@ -1,4 +1,4 @@
-package com.example.FootballBookingSystem
+package com.example.SportsBookingSystem
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

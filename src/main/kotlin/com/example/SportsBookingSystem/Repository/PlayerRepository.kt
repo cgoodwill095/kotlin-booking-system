@@ -1,6 +1,6 @@
-package com.example.FootballBookingSystem.Repository;
+package com.example.SportsBookingSystem.Repository;
 
-import com.example.FootballBookingSystem.Entity.PlayerEntity
+import com.example.SportsBookingSystem.Entity.PlayerEntity
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
