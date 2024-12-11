@@ -121,6 +121,15 @@ CREATE TABLE IF NOT EXISTS `mydb`.`TournamentEntity` (
   PRIMARY KEY (`Id`))
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `mydb`.`Random_users` (
+    `Id` INT NOT NULL,
+    `first_name` VARCHAR(45) NULL,
+    `last_name` VARCHAR(45) NULL,
+    `description` VARCHAR(255) NULL,
+    `phone_number` VARCHAR(25) NULL,
+    `email` VARCHAR(125) NULL,
+    PRIMARY KEY (`Id`)
+    ) ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
