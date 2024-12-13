@@ -13,23 +13,19 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="cg1-11122024" author="cg">
-        <createTable tableName="AdminUser">
+    <changeSet id="cg1-13122024" author="cg">
+        <createTable tableName="UserEntity">
             <column name="id" type="int">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="EntityCreatedOn" type="DATETIME"/>
-            <column name="EntityUpdatedOn" type="DATETIME"/>
-            <column name="status" type="bit(1)"/>
             <column name="username" type="VARCHAR(255)"/>
-            <column name="passwordHash" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="active" type="bit(1)"/>
         </createTable>
-        <createTable tableName="AdminUserRole">
+        <createTable tableName="UserRoleEntity">
             <column name="id" type="int">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="EntityCreatedOn" type="DATETIME"/>
-            <column name="EntityUpdatedOn" type="DATETIME"/>
             <column name="status" type="bit(1)"/>
             <column name="userId" type="VARCHAR(255)"/>
             <column name="userRole" type="VARCHAR(255)"/>
