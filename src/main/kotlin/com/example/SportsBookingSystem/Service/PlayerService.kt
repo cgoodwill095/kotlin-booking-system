@@ -11,7 +11,7 @@ import kotlin.NoSuchElementException
 class PlayerService(private val playerRepository: PlayerRepository)
 {
     @Transactional
-    fun getPLayerByID(Id:Long):PlayerEntity?
+    fun getPLayerById(Id:Long):PlayerEntity?
     {
         return playerRepository.findByPlayerId(Id)
     }
@@ -37,7 +37,6 @@ class PlayerService(private val playerRepository: PlayerRepository)
             existingPlayer.active = player.active
             return playerRepository.save(existingPlayer)
         }
-
         throw IllegalArgumentException("This user does not exist.")
 
     }
