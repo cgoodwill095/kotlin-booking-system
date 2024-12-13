@@ -37,11 +37,14 @@ class SecurityConfig {
                 authorize("/css/**", permitAll)
                 authorize("/images/**", permitAll)
                 authorize("/login", permitAll)
+                authorize("/index", permitAll)
                 authorize("/", permitAll)
-                //authorize("/dashboard", hasRole("USER"))
+                authorize("/admin", hasRole("USER"))
                 authorize(anyRequest, authenticated)
             }
             formLogin {
+                loginPage = "/login"
+                failureUrl = "/login?error=true"
                 defaultSuccessUrl("/admin", true)
                 permitAll()
             }

@@ -26,11 +26,10 @@ class CustomUserDetailsService(private val userRepository: UserRepository, priva
     //private fun getAuthorities(role: RoleEntity): MutableList<GrantedAuthority> {
 
     private fun getAuthorities(): MutableList<GrantedAuthority> {
-        userService.createAdmin()
 
         val authorities = mutableListOf<GrantedAuthority>()
-        authorities.add(SimpleGrantedAuthority("ADMIN"))
-        authorities.add(SimpleGrantedAuthority("USER"))
+        authorities.add(SimpleGrantedAuthority("ROLE_ADMIN"))
+        authorities.add(SimpleGrantedAuthority("ROLE_USER"))
 /*
         role.permissions.forEach {
             logger.info("Role with name: {}", it.name)
