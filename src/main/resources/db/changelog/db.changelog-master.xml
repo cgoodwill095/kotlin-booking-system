@@ -32,4 +32,10 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="cg1-14122024" author="cg">
+        <dropColumn tableName="UserRoleEntity">
+            <column name="status" />
+        </dropColumn>
+    </changeSet>
+
 </databaseChangeLog>

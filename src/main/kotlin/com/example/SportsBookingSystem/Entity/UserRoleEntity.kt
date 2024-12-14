@@ -3,11 +3,13 @@ package com.example.SportsBookingSystem.Entity
 import jakarta.persistence.*
 
 @Entity
-class RoleEntity(
+class UserRoleEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,
-        var name: String)
+        var userId: Int,
+        var userRole: String
+        )
 {
 
 }
