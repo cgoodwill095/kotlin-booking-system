@@ -5,6 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface TeamRepository : JpaRepository<TeamEntity, String>
+interface TeamRepository : JpaRepository<TeamEntity, Long>
+{
+    fun findTeamById(id:Long):TeamEntity?
+    fun existsByTeamId(id:Long?):Boolean
+}
 
 
