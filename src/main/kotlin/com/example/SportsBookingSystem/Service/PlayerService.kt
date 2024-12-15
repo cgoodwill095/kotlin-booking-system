@@ -8,9 +8,9 @@ import kotlin.NoSuchElementException
 class PlayerService(private val playerRepository: PlayerRepository)
 {
     @Transactional
-    fun getPLayerById(Id:Long):PlayerEntity?
+    fun getPLayerById(id:Long):PlayerEntity?
     {
-        return playerRepository.findByPlayerId(Id)
+        return playerRepository.findByPlayerId(id)
     }
 
     @Transactional
@@ -30,7 +30,6 @@ class PlayerService(private val playerRepository: PlayerRepository)
         if(existingPlayer != null)
         {
             existingPlayer.name = player.name
-            existingPlayer.positions = player.positions
             existingPlayer.active = player.active
             return playerRepository.save(existingPlayer)
         }

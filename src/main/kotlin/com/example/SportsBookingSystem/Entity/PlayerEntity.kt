@@ -11,7 +11,6 @@ class PlayerEntity(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,
         var name: String,
-        var positions: String,
         var active: Boolean) {
 }
 
