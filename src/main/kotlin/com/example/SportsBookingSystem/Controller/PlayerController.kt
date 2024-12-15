@@ -2,17 +2,15 @@ package com.example.SportsBookingSystem.Controller
 
 import com.example.SportsBookingSystem.Entity.PlayerEntity
 import com.example.SportsBookingSystem.Service.PlayerService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 
 @Controller
 @RequestMapping("/player")
 class PlayerController(private val playerService: PlayerService) {
 
-    @GetMapping
+    @GetMapping("/findAll")
     fun findAll(): List<PlayerEntity>
     {
         if(playerService.findAll().isEmpty())
@@ -22,7 +20,7 @@ class PlayerController(private val playerService: PlayerService) {
         return playerService.findAll()
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get{id}")
     fun getPlayerById(@PathVariable id: Long): ResponseEntity<PlayerEntity>
     {
         val player = playerService.getPLayerById(id)
@@ -33,7 +31,7 @@ class PlayerController(private val playerService: PlayerService) {
         }
         return ResponseEntity.ok(player)
     }
-    @GetMapping("/{id}")
+    @GetMapping("/find{id}")
     fun findPlayerById(@PathVariable id: Long): ResponseEntity<PlayerEntity>
     {
         val player = playerService.findPlayerById(id)
