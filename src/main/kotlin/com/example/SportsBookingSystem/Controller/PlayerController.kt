@@ -25,11 +25,11 @@ class PlayerController(private val playerService: PlayerService) {
     {
         val player = playerService.getPLayerById(id)
 
-        if(player == null)
+        if(player.isEmpty)
         {
             return ResponseEntity.notFound().build()
         }
-        return ResponseEntity.ok(player)
+        return ResponseEntity.ok(player.get())
     }
     @GetMapping("/find{id}")
     fun findPlayerById(@PathVariable id: Long): ResponseEntity<PlayerEntity>

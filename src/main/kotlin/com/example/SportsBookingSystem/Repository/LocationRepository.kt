@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 interface LocationRepository : JpaRepository<LocationEntity, Long>
 {
-    fun findByLocationId(id: Long):LocationEntity?
-    fun existsByLocationId(id:Long?):Boolean
+    fun existsById(id:Long?):Boolean
 }
 
 

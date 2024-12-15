@@ -11,9 +11,9 @@ class LocationService(private val locationRepository: LocationRepository)
     @Transactional
     fun getLocationById(id:Long):LocationEntity?
     {
-        if(locationRepository.existsByLocationId(id))
+        if(locationRepository.existsById(id))
         {
-            return locationRepository.findByLocationId(id);
+            return locationRepository.getReferenceById(id);
         }
         throw NoSuchElementException("Location doesn't exist")
     }
@@ -21,7 +21,7 @@ class LocationService(private val locationRepository: LocationRepository)
     @Transactional
     fun createLocation(location: LocationEntity):LocationEntity
     {
-        if(locationRepository.existsByLocationId(location.id))
+        if(locationRepository.existsById(location.id))
         {
             throw IllegalArgumentException("This location already exists")
         }
@@ -31,7 +31,7 @@ class LocationService(private val locationRepository: LocationRepository)
     @Transactional
     fun updateLocation(id:Long, location:LocationEntity):LocationEntity
     {
-        val locationExisits = locationRepository.findByLocationId(id)
+        val locationExisits = locationRepository.getReferenceById(id)
         if(locationExisits != null)
         {
             locationExisits.name = location.name
@@ -46,7 +46,7 @@ class LocationService(private val locationRepository: LocationRepository)
     @Transactional
     fun deleteLocation(id:Long)
     {
-        if(locationRepository.existsByLocationId(id))
+        if(locationRepository.existsById(id))
         {
             return locationRepository.deleteById(id)
         }

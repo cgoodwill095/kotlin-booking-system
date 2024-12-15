@@ -38,4 +38,20 @@
         </dropColumn>
     </changeSet>
 
+    <changeSet id="cg1-15122024" author="cg">
+        <dropColumn tableName="PlayerEntity">
+            <column name="Active" />
+        </dropColumn>
+        <addColumn tableName="PlayerEntity">
+            <column name="Status" type="VARCHAR(255)"/>
+        </addColumn>
+        <dropColumn tableName="TeamEntity">
+            <column name="Active" />
+        </dropColumn>
+        <addColumn tableName="TeamEntity">
+            <column name="Status" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

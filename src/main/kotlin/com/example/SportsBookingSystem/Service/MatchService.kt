@@ -10,9 +10,9 @@ class MatchService(private val matchRepository: MatchRepository)
     @Transactional
     fun getmatchById(id: Long): MatchEntity?
     {
-        if(matchRepository.existsByMatchId(id))
+        if(matchRepository.existsById(id))
         {
-            return matchRepository.findByMatchId(id)
+            return matchRepository.getReferenceById(id)
         }
         throw NoSuchElementException("This Match doesn't exist")
     }
@@ -20,7 +20,7 @@ class MatchService(private val matchRepository: MatchRepository)
     @Transactional
     fun createMatch(match: MatchEntity):MatchEntity
     {
-        if(matchRepository.existsByMatchId(match.id))
+        if(matchRepository.existsById(match.id))
         {
             throw IllegalArgumentException("Match already exists")
         }
@@ -30,7 +30,7 @@ class MatchService(private val matchRepository: MatchRepository)
     @Transactional
     fun updateMatch(id:Long, match:MatchEntity):MatchEntity
     {
-        val existingmatch = matchRepository.findByMatchId(id)
+        val existingmatch = matchRepository.getReferenceById(id)
         if(existingmatch != null)
         {
             existingmatch.status = match.status
@@ -45,7 +45,7 @@ class MatchService(private val matchRepository: MatchRepository)
     @Transactional
     fun deleteMatch(id:Long)
     {
-        if(matchRepository.existsByMatchId(id))
+        if(matchRepository.existsById(id))
         {
             return matchRepository.deleteById(id)
         }

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 interface PlayerRepository : JpaRepository<PlayerEntity, Long>
 {
-    fun findByPlayerId(Id:Long):PlayerEntity?
-    fun existsByPlayerId(Id:Long?):Boolean
+    fun existsById(id:Long?):Boolean
+
+    fun findAllByStatus(status: String):List<PlayerEntity>
 }
 

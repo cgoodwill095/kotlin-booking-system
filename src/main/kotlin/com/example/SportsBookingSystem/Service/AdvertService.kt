@@ -11,7 +11,7 @@ class AdvertService(private val advertRepository: AdvertRepository)
     @Transactional
     fun getAdvertById(id:Long): AdvertEntity?
     {
-        if(advertRepository.existsByAdvertId(id))
+        if(advertRepository.existsById(id))
         {
             return advertRepository.findAdvertById(id)
         }
@@ -21,7 +21,7 @@ class AdvertService(private val advertRepository: AdvertRepository)
     @Transactional
     fun createAdvert(advertEntity: AdvertEntity):AdvertEntity
     {
-        if(advertRepository.existsByAdvertId(advertEntity.id))
+        if(advertRepository.existsById(advertEntity.id))
         {
             throw IllegalArgumentException("This advert already exists")
         }
@@ -46,7 +46,7 @@ class AdvertService(private val advertRepository: AdvertRepository)
     @Transactional
     fun deleteAdvert(id:Long)
     {
-        if(advertRepository.existsByAdvertId(id))
+        if(advertRepository.existsById(id))
         {
             return advertRepository.deleteById(id)
         }

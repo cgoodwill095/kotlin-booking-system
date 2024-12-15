@@ -1,3 +1,7 @@
 package com.example.SportsBookingSystem.Model
 
- class PlayerModel()
+ class PlayerModel(
+         var id: Long?,
+         var name: String,
+         var active: Boolean
+ )

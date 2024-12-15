@@ -11,9 +11,9 @@ class AssignmentService(private val assignmentRepository: AssignmentRepository)
     @Transactional
     fun getAssignmentById(id:Long):AssignmentEntity?
     {
-        if(assignmentRepository.existsByAssignmentId(id))
+        if(assignmentRepository.existsById(id))
         {
-            return assignmentRepository.findByAssignmentId(id)
+            return assignmentRepository.getReferenceById(id)
         }
         throw NoSuchElementException("Assignment doesn't exist")
     }
@@ -21,7 +21,7 @@ class AssignmentService(private val assignmentRepository: AssignmentRepository)
     @Transactional
     fun createAssignment(assignment: AssignmentEntity):AssignmentEntity
     {
-       if(assignmentRepository.existsByAssignmentId(assignment.id))
+       if(assignmentRepository.existsById(assignment.id))
        {
            throw IllegalArgumentException("Assignment already exist")
        }
@@ -31,22 +31,19 @@ class AssignmentService(private val assignmentRepository: AssignmentRepository)
     @Transactional
     fun updateAssignment(id:Long, assignment: AssignmentEntity): AssignmentEntity
     {
-        val existsAssignment = assignmentRepository.findByAssignmentId(id)
+        val existsAssignment = assignmentRepository.getReferenceById(id)
 
-        if(existsAssignment !=null)
-        {
-            existsAssignment.name = assignment.name
-            existsAssignment.description = assignment.description
-            existsAssignment.done = assignment.done
-            return assignmentRepository.save(assignment)
-        }
+        existsAssignment.name = assignment.name
+        existsAssignment.description = assignment.description
+        existsAssignment.done = assignment.done
+        return assignmentRepository.save(assignment)
         throw NoSuchElementException("Assignment doesn't exist")
     }
 
     @Transactional
     fun deleteAssignment(id:Long)
     {
-        if(assignmentRepository.existsByAssignmentId(id))
+        if(assignmentRepository.existsById(id))
         {
             return assignmentRepository.deleteById(id)
         }

@@ -3,20 +3,21 @@ import com.example.SportsBookingSystem.Entity.PlayerEntity
 import com.example.SportsBookingSystem.Repository.PlayerRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.util.*
 import kotlin.NoSuchElementException
 @Service
 class PlayerService(private val playerRepository: PlayerRepository)
 {
     @Transactional
-    fun getPLayerById(id:Long):PlayerEntity?
+    fun getPLayerById(id:Long): Optional<PlayerEntity>
     {
-        return playerRepository.findByPlayerId(id)
+        return playerRepository.findById(id)
     }
 
     @Transactional
     fun createPlayer(player:PlayerEntity):PlayerEntity
     {
-        if(playerRepository.existsByPlayerId(player.id))
+        if(playerRepository.existsById(player.id))
         {
             throw IllegalArgumentException("This user already exists.")
         }
@@ -26,12 +27,14 @@ class PlayerService(private val playerRepository: PlayerRepository)
     @Transactional
     fun updatePlayer(id: Long, player:PlayerEntity):PlayerEntity
     {
-        val existingPlayer = playerRepository.findByPlayerId(id)
-        if(existingPlayer != null)
+        val playerEntity: Optional<PlayerEntity> = playerRepository.findById(id)
+
+
+        if(playerEntity.isPresent)
         {
-            existingPlayer.name = player.name
-            existingPlayer.active = player.active
-            return playerRepository.save(existingPlayer)
+            playerEntity.get().name = player.name
+            playerEntity.get().status = player.status
+            return playerRepository.save(playerEntity.get())
         }
         throw IllegalArgumentException("This user does not exist.")
 
@@ -39,7 +42,7 @@ class PlayerService(private val playerRepository: PlayerRepository)
     @Transactional
     fun deletePlayer(id: Long)
     {
-        if(playerRepository.existsByPlayerId(id))
+        if(playerRepository.existsById(id))
         {
             return playerRepository.deleteById(id)
         }
@@ -48,14 +51,19 @@ class PlayerService(private val playerRepository: PlayerRepository)
 
     @Transactional
     fun findPlayerById(id: Long): PlayerEntity? {
-        return playerRepository.findById(id)
-            .orElseThrow{ NoSuchElementException("There is no player with id $id") }
+        return playerRepository.findById(id).orElseThrow{ NoSuchElementException("There is no player with id $id") }
     }
 
     @Transactional
     fun findAll(): List<PlayerEntity>
     {
         return playerRepository.findAll()
+    }
+
+    @Transactional
+    fun findAllActive(status: String):List<PlayerEntity>
+    {
+        return playerRepository.findAllByStatus(status)
     }
 
 }

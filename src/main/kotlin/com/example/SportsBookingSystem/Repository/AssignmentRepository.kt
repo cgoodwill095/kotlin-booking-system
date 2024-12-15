@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 interface AssignmentRepository : JpaRepository<AssignmentEntity, Long>
 {
-    fun findByAssignmentId(id:Long): AssignmentEntity?
-    fun existsByAssignmentId(id: Long?): Boolean
+    fun existsById(id: Long?): Boolean
 }
 
 

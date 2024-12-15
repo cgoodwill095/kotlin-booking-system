@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 interface AdvertRepository : JpaRepository<AdvertEntity, Long>
 {
     fun findAdvertById(id:Long):AdvertEntity?
-    fun existsByAdvertId(id:Long?):Boolean
+    fun existsById(id:Long?):Boolean
 }
 
 

@@ -10,7 +10,7 @@ class TeamService(private val teamRepository: TeamRepository)
     @Transactional
     fun getTeamById(id:Long):TeamEntity?
     {
-        if(teamRepository.existsByTeamId(id))
+        if(teamRepository.existsById(id))
         {
             return teamRepository.findTeamById(id)
         }
@@ -20,7 +20,7 @@ class TeamService(private val teamRepository: TeamRepository)
     @Transactional
     fun createTeam(team: TeamEntity):TeamEntity
     {
-        if(teamRepository.existsByTeamId(team.id))
+        if(teamRepository.existsById(team.id))
         {
             throw NoSuchElementException("This Team already exists")
         }
@@ -35,7 +35,7 @@ class TeamService(private val teamRepository: TeamRepository)
         {
             teamExists.name = team.name
             teamExists.homeground = team.homeground
-            teamExists.active = team.active
+            teamExists.status = team.status
             teamExists.description = team.description
             return teamRepository.save(team)
         }
@@ -45,7 +45,7 @@ class TeamService(private val teamRepository: TeamRepository)
     @Transactional
     fun deleteTeam(id:Long)
     {
-        if(teamRepository.existsByTeamId(id))
+        if(teamRepository.existsById(id))
         {
             return teamRepository.deleteById(id)
         }
