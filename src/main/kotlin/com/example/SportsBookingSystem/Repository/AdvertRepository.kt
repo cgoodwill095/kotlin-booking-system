@@ -5,6 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface AdvertRepository : JpaRepository<AdvertEntity, String>
+interface AdvertRepository : JpaRepository<AdvertEntity, Long>
+{
+    fun findAdvertById(id:Long):AdvertEntity?
+    fun existsByAdvertId(id:Long?):Boolean
+}
+
 
 
