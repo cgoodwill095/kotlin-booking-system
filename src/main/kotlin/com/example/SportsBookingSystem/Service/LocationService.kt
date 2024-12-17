@@ -61,7 +61,7 @@ class LocationService(private val locationRepository: LocationRepository)
     }
 
     @Transactional
-    fun findALlLocation():List<LocationEntity>
+    fun findAllLocation():List<LocationEntity>
     {
         return locationRepository.findAll()
     }
