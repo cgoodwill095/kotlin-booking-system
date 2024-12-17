@@ -1,8 +1,8 @@
-package com.example.SportsBookingSystem.Repository;
+package com.example.SportsBookingSystem.Repository
 
 import com.example.SportsBookingSystem.Entity.AssignmentEntity
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
 @Repository
 interface AssignmentRepository : JpaRepository<AssignmentEntity, Long>

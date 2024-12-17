@@ -36,15 +36,39 @@ tags:
     description: Operations for to create, and manage drop in requests
 
 paths:
+  
   /player:
+    get:
+      tags:
+        - player
+      summary: Finds players by status
+      description: Return all players
+      operationId: findPlayers
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+      security:
+        - petstore_auth:
+            - read:player
     put:
       tags:
         - player
-      summary: Update an existing pet
-      description: Update an existing pet by Id
-      operationId: updatePet
+      summary: Update an existing player
+      description: Update an existing player by Id
+      operationId: updatePlayer
       requestBody:
-        description: Update an existent pet in the store
+        description: Update an existing player in the db
         content:
           application/json:
             schema:
@@ -69,21 +93,21 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: Pet not found
+          description: Player not found
         '422':
           description: Validation exception
       security:
         - petstore_auth:
-            - write:pets
-            - read:pets
+            - write:player
+            - read:plauer
     post:
       tags:
-        - pet
-      summary: Add a new pet to the store
-      description: Add a new pet to the store
-      operationId: addPet
+        - player
+      summary: Add a new player to the system
+      description: Add a new player to the system - to be done on the first login by a user
+      operationId: addPlayer
       requestBody:
-        description: Create a new pet in the store
+        description: Create a new player in the store
         content:
           application/json:
             schema:
@@ -111,28 +135,29 @@ paths:
           description: Validation exception
       security:
         - petstore_auth:
-            - write:pets
-            - read:pets
-  /player/findByStatus:
+            - write:player
+            - read:player
+  /player/findByStatus/{status}:
     get:
       tags:
         - player
-      summary: Finds Pets by status
+      summary: Finds players by status
       description: Multiple status values can be provided with comma separated strings
-      operationId: findPetsByStatus
+      operationId: findPlayersByStatus
       parameters:
         - name: status
           in: query
           description: Status values that need to be considered for filter
-          required: false
+          required: true
           explode: true
           schema:
             type: string
             default: available
             enum:
-              - available
-              - pending
-              - sold
+            - active
+            - inactive
+            - deleted
+            - banned
       responses:
         '200':
           description: successful operation
@@ -151,116 +176,54 @@ paths:
           description: Invalid status value
       security:
         - petstore_auth:
-            - write:pets
-            - read:pets
-  /player/findByTags:
-    get:
-      tags:
-        - player
-      summary: Finds Pets by tags
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-      operationId: findPetsByTags
-      parameters:
-        - name: tags
-          in: query
-          description: Tags to filter by
-          required: false
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Player'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Player'
-        '400':
-          description: Invalid tag value
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-  /player/{petId}:
-    get:
-      tags:
-        - player
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to return
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Player'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Player'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-      security:
-        - api_key: []
-        - petstore_auth:
-            - write:pets
-            - read:pets
+            - write:player
+            - read:player
+  /player/team/{playerId}{teamId}:
     post:
       tags:
-        - pet
-      summary: Updates a pet in the store with form data
+        - player
+      summary: Updates a player team status
       description: ''
-      operationId: updatePetWithForm
+      operationId: updatePlayerWithForm
       parameters:
-        - name: petId
+        - name: playerId
           in: path
-          description: ID of pet that needs to be updated
+          description: ID of player that needs to be updated
           required: true
           schema:
             type: integer
             format: int64
-        - name: name
-          in: query
-          description: Name of pet that needs to be updated
+        - name: teamId
+          in: path
+          description: ID of team that player will link to
+          required: true
           schema:
-            type: string
+            type: integer
+            format: int64        
         - name: status
           in: query
-          description: Status of pet that needs to be updated
+          description: Status of player application that needs to be updated
           schema:
             type: string
+            enum:
+            - applied
+            - member
+            - banned
+            - rejected
+
       responses:
         '400':
           description: Invalid input
       security:
         - petstore_auth:
-            - write:pets
-            - read:pets
+            - write:player
+            - read:player
     delete:
       tags:
-        - pet
-      summary: Deletes a pet
-      description: delete a pet
-      operationId: deletePet
+        - player
+      summary: Deletes a player
+      description: logical delete a player
+      operationId: deletePlayer
       parameters:
         - name: api_key
           in: header
@@ -268,49 +231,21 @@ paths:
           required: false
           schema:
             type: string
-        - name: petId
+        - name: playerId
           in: path
-          description: Pet id to delete
+          description: Player id to delete
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '400':
-          description: Invalid pet value
+          description: Invalid player value
       security:
         - petstore_auth:
-            - write:pets
-            - read:pets
-  /team/{id}:
-    get:
-      tags:
-        - team
-      summary: Returns pet inventories by status
-      description: Returns a map of status codes to quantities
-      operationId: getInventory
-      parameters:
-        - name: id
-          in: path
-          description: ID of pet to return
-          required: true
-          schema:
-            type: integer
-            format: int64
-
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties:
-                  type: integer
-                  format: int32
-      security:
-        - api_key: []
-  /team/:
+            - write:players
+            - read:players
+  /team:
     post:
       tags:
         - team
@@ -339,35 +274,34 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
-  /team/Player/{playerId}:
+  /team/{id}:
     get:
       tags:
         - team
-      summary: Find purchase order by ID
-      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
-      operationId: getOrderById
+      summary: Returns pet inventories by status
+      description: Returns a map of status codes to quantities
+      operationId: getInventory
       parameters:
-        - name: playerId
+        - name: id
           in: path
-          description: ID of order that needs to be fetched
+          description: ID of pet to return
           required: true
           schema:
             type: integer
             format: int64
+
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Player'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Player'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Order not found
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+  /team/player/{playerId}:
+    post:
     delete:
       tags:
         - store
@@ -544,6 +478,81 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+  /match:
+    get:
+    put:
+    post:
+  /match/{id}:
+    get:
+    delete:
+  /match/location/{point}:
+    get:
+  /match/location/{point}{matchStatus}
+    get: 
+  /match/player/{playerId}{matchId}{requestStatus}:
+    post:
+  /tournament:
+    get:
+    post:
+  /tournament/{id}:
+    get:
+    put:
+    delete:
+  /tournament/team/{teamId}:
+    put:
+    post:
+    delete:
+  /tournament/player:
+    get:
+    put:
+    post:
+    delete:
+  /advert:
+    get:
+    put:
+    post:
+    delete:
+  /advert/{id}:
+    get:
+    put:
+    post:
+    delete:
+  /organisation:
+    get:
+    put:
+    post:
+    delete:
+  /organisation/player:
+    get:
+    put:
+    post:
+    delete:
+  /organisation/team:
+    get:
+    put:
+    post:
+    delete:
+  /organisastion/tournament:
+    get:
+    put:
+    post:
+    delete:
+  /dropInRequest:
+    get:
+    put:
+    post:
+    delete:
+  /dropInRequest/{id}:
+    get:
+    put:
+    post:
+    delete:
+  /dropInRequest/match/{id}:
+    get:
+    put:
+    post:
+    delete:
+  
 components:
   schemas:
     Player:
