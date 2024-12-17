@@ -487,8 +487,6 @@ paths:
     delete:
   /match/location/{point}:
     get:
-  /match/location/{point}{matchStatus}
-    get: 
   /match/player/{playerId}{matchId}{requestStatus}:
     post:
   /tournament:
