@@ -1,0 +1,3 @@
+-Review system - leave feedback & thumbs up/down other players
+-Trophy system - earn trophies based on your stats
+    - e.g. score in 2 consecutive game, get trophy to display on profile page
