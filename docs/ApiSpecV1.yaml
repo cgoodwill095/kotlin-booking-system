@@ -18,7 +18,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://petstore3.swagger.io/api/v3
+  - url: https://tbd/api/v1
 tags:
   - name: player
     description: Everything about the user's player profile, as well as pulling data,
@@ -137,6 +137,8 @@ paths:
         - petstore_auth:
             - write:player
             - read:player
+  /player/findall:
+    get:
   /player/findByStatus/{status}:
     get:
       tags:
@@ -182,7 +184,7 @@ paths:
     post:
       tags:
         - player
-      summary: Updates a player team status
+      summary: Creats a player team link
       description: ''
       operationId: updatePlayerWithForm
       parameters:
@@ -218,6 +220,46 @@ paths:
         - petstore_auth:
             - write:player
             - read:player
+    put:
+      tags:
+        - player
+      summary: Creats a player team link
+      description: ''
+      operationId: updatePlayerWithForm
+      parameters:
+        - name: playerId
+          in: path
+          description: ID of player that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: ID of team that player will link to
+          required: true
+          schema:
+            type: integer
+            format: int64        
+        - name: status
+          in: query
+          description: Status of player application that needs to be updated
+          schema:
+            type: string
+            enum:
+            - applied
+            - member
+            - banned
+            - rejected
+
+      responses:
+        '400':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - write:player
+            - read:player
+
     delete:
       tags:
         - player
@@ -246,6 +288,12 @@ paths:
             - write:players
             - read:players
   /team:
+    get:
+      tags:
+        - team
+    put:
+      tags:
+        - team
     post:
       tags:
         - team
@@ -302,9 +350,14 @@ paths:
                   format: int32
   /team/player/{playerId}:
     post:
+      tags:
+        - team    
+    put:
+      tags:
+        - player    
     delete:
       tags:
-        - store
+        - team
       summary: Delete purchase order by ID
       description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
       operationId: deleteOrder
@@ -350,6 +403,9 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - user
   /user/login:
     get:
       tags:
@@ -426,7 +482,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'          
             application/xml:
-              schema:
+              schema: 
                 $ref: '#/components/schemas/User'
         '400':
           description: Invalid username supplied
@@ -480,76 +536,149 @@ paths:
           description: User not found
   /match:
     get:
+      tags:
+        - match
     put:
+      tags:
+        - match
     post:
+      tags:
+        - match
   /match/{id}:
     get:
+      tags:
+        - match
     delete:
+      tags:
+        - match
   /match/location/{point}:
     get:
+      tags:
+        - match
+  /match/location/{point}{matchStatus}:
+    get: 
+      tags:
+        - match
   /match/player/{playerId}{matchId}{requestStatus}:
     post:
+      tags:
+        - match
   /tournament:
     get:
+      tags:
+        - tournament
+    put:
+      tags:
+        - tournament
     post:
+      tags:
+        - tournament
   /tournament/{id}:
     get:
-    put:
+      tags:
+        - tournament
     delete:
+      tags:
+        - tournament
   /tournament/team/{teamId}:
-    put:
-    post:
-    delete:
-  /tournament/player:
     get:
+      tags:
+        - tournament
     put:
+      tags:
+        - tournament
     post:
+      tags:
+        - tournament
     delete:
+      tags:
+        - tournament
+  /tournament/player:
+    put:
+      tags:
+        - tournament
+    post:
+      tags:
+        - tournament
+    delete:
+      tags:
+        - tournament
+  /tournament/{playerId}:
+    get:
+      tags:
+        - tournament
   /advert:
     get:
-    put:
+      tags:
+        - advert
     post:
-    delete:
+      tags:
+        - advert
   /advert/{id}:
     get:
+      tags:
+        - advert
     put:
-    post:
+      tags:
+        - advert
     delete:
+      tags:
+        - advert
   /organisation:
     get:
-    put:
+      tags:
+        - organisation
     post:
-    delete:
-  /organisation/player:
+      tags:
+        - organisation
+  /organisation/{organisationId}:
     get:
+      tags:
+        - organisation
     put:
-    post:
+      tags:
+        - organisation
     delete:
-  /organisation/team:
+      tags:
+        - organisation
+  /organisation/{organisationId}/player:
     get:
-    put:
+      tags:
+        - organisation
     post:
-    delete:
-  /organisastion/tournament:
+      tags:
+        - organisation
+  /organisation/{organisationId}/team:
     get:
-    put:
+      tags:
+        - organisation
     post:
-    delete:
+      tags:
+        - organisation
+  /organisastion/{organisationId}/tournament:
+    get:
+      tags:
+        - organisation
+    post:
+      tags:
+        - organisation
   /dropInRequest:
     get:
-    put:
+      tags:
+        - dropInRequest
     post:
-    delete:
+      tags:
+        - dropInRequest
   /dropInRequest/{id}:
     get:
+      tags:
+        - dropInRequest
     put:
-    post:
+      tags:
+        - dropInRequest
     delete:
-  /dropInRequest/match/{id}:
-    get:
-    put:
-    post:
-    delete:
+      tags:
+        - dropInRequest
   
 components:
   schemas:
@@ -884,7 +1013,7 @@ components:
         name: '##default'
   requestBodies:
     Player:
-      description: Pet object that needs to be added to the store
+      description: Player object that needs to be added to the store
       content:
         application/json:
           schema:

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/player")
-class PlayerRestController(private val playerService: PlayerService) {
+@RequestMapping("/api/dropInRequest")
+class DropInRequestRestController(private val playerService: PlayerService) {
 
     @GetMapping("/findAll")
     fun findAll(): List<PlayerEntity>

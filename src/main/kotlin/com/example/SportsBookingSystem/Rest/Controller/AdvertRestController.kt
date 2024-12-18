@@ -1,6 +1,7 @@
 package com.example.SportsBookingSystem.Rest.Controller
 
 import com.example.SportsBookingSystem.Entity.PlayerEntity
+import com.example.SportsBookingSystem.Service.AdvertService
 import com.example.SportsBookingSystem.Service.PlayerService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -10,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/player")
-class PlayerRestController(private val playerService: PlayerService) {
+@RequestMapping("/api/advert")
+class AdvertRestController(private val advertService: AdvertService) {
 
     @GetMapping("/findAll")
-    fun findAll(): List<PlayerEntity>
+    fun findAll(): List<AdvertEntity>
     {
-        if(playerService.findAll().isEmpty())
+        if(advertService.findAll().isEmpty())
         {
             throw NoSuchElementException("There is no players registered")
         }
-        return playerService.findAll()
+        return advertService.findAll()
     }
 
     @GetMapping("/team/findAll/{teamId}")
