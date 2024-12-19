@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/team")
 class TeamRestController(private val teamService: TeamService) {
-
+/*
     @GetMapping("/findAll")
     fun findAll(): List<TeamEntity>
     {
@@ -52,6 +52,6 @@ class TeamRestController(private val teamService: TeamService) {
     {
         return true
     }
-
+*/
 
 }

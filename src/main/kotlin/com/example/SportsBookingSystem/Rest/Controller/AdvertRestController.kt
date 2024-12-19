@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/advert")
 class AdvertRestController(private val advertService: AdvertService) {
-
+/*
     @GetMapping("/findAll")
     fun findAll(): List<AdvertEntity>
     {
@@ -56,15 +56,9 @@ class AdvertRestController(private val advertService: AdvertService) {
     }
 
     @PostMapping("/")
-    fun postPlayer(): PlayerEntity
+    fun postPlayer(): Boolean
     {
-        val playerEntity: PlayerEntity
-        playerEntity= playerService.findPlayerById(1)!!
-        if(playerService.findAll().isEmpty())
-        {
-            throw NoSuchElementException("There is no players registered")
-        }
-        return playerEntity
+       return true;
     }
 
     @PostMapping("/team/{playerId}{teamId}")
@@ -79,6 +73,6 @@ class AdvertRestController(private val advertService: AdvertService) {
     fun deletePlayerTeamLink(): Boolean{
         return false
     }
-
+*/
 
 }
