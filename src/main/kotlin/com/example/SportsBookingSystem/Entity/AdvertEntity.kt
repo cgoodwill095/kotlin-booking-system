@@ -15,7 +15,7 @@ class AdvertEntity (
         var status: String,
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long?=null
+        var id: Long?
         )
 
 

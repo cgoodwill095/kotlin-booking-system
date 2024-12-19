@@ -11,20 +11,13 @@ class AdvertService(private val advertRepository: AdvertRepository)
     @Transactional
     fun getAdvertById(id:Long): AdvertEntity?
     {
-        if(advertRepository.existsById(id))
-        {
             return advertRepository.findAdvertById(id)
-        }
-        throw NoSuchElementException("This advert doesn't exist")
+
     }
 
     @Transactional
     fun createAdvert(advertEntity: AdvertEntity):AdvertEntity
     {
-        if(advertRepository.existsById(advertEntity.id))
-        {
-            throw IllegalArgumentException("This advert already exists")
-        }
         return advertRepository.save(advertEntity)
     }
 
@@ -46,11 +39,7 @@ class AdvertService(private val advertRepository: AdvertRepository)
     @Transactional
     fun deleteAdvert(id:Long)
     {
-        if(advertRepository.existsById(id))
-        {
             return advertRepository.deleteById(id)
-        }
-        throw NoSuchElementException("Advert doesn't exist")
     }
 
     @Transactional

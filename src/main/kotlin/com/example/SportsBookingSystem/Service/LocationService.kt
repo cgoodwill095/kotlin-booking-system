@@ -38,7 +38,8 @@ class LocationService(private val locationRepository: LocationRepository)
             locationExisits.description = location.description
             locationExisits.active = location.active
             locationExisits.geolocation = location.geolocation
-            locationRepository.save(locationExisits)
+            return locationRepository.save(locationExisits)
+
         }
         throw NoSuchElementException("The location you are updating does not exist")
     }
