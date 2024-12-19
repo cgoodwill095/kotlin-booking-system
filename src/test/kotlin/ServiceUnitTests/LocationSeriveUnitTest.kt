@@ -2,9 +2,7 @@ package ServiceUnitTests
 
 import com.example.SportsBookingSystem.Entity.LocationEntity
 import com.example.SportsBookingSystem.Service.LocationService
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 import org.junit.jupiter.api.Test
 import org.springframework.data.geo.Point
 import kotlin.test.assertEquals
@@ -68,4 +66,35 @@ class LocationSeriveUnitTest
         assertEquals(result, updatedLocation)
         verify { locationServices.updateLocation(1, updatedLocation) }
     }
+    @Test
+    fun deleteLocation_then()
+    {
+        val geolocation = Point(10.2,11.2)
+        val delete = LocationEntity(
+            1,
+            "name",
+            "dis",
+            true,
+            geolocation)
+        every { locationServices.deleteLocation(1) } just Runs
+        locationServices.deleteLocation(1)
+        verify { locationServices.deleteLocation(1) }
+    }
+   @Test
+   fun findLocationById_thenReturnLocation()
+   {
+       val geolocation = Point(10.2,11.2)
+       val location = LocationEntity(
+           1,
+           "name",
+           "dis",
+           true,
+           geolocation)
+       every{ locationServices.findLocationById(1)} returns location
+       val result = locationServices.findLocationById(1)
+       assertEquals(location, result)
+       verify { locationServices.findLocationById(1) }
+
+   }
+
 }
