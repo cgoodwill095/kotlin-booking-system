@@ -61,12 +61,11 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Name" type="VARCHAR(45)" />
-            <column name="Description" type="VARCHAR(255)"/>
-            <column name="Active" type="bit(1)" />
-            <column name="HomeGround" type="BIGINT" />
-            <column name="Players" type="BIGINT" />
-            <column name="Type" type="VARCHAR(255)" />
+            <column name="name" type="VARCHAR(50)" />
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="active" type="bit(1)" />
+            <column name="home_ground" type="BIGINT" />
+            <column name="type" type="VARCHAR(255)" />
         </createTable>
 
         <dropTable tableName="MatchEntity"/>
@@ -75,13 +74,14 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="LocationId" type="BIGINT" />
-            <column name="Teams" type="INT"/>
-            <column name="Description" type="VARCHAR(255)" />
-            <column name="Status" type="VARCHAR(45)" />
-            <column name="OrganisationId" type="BIGINT" />
-            <column name="PrivateDescription" type="VARCHAR(255)" />
-            <column name="CreatorId" type="INT" />
+            <column name="location_id" type="BIGINT" />
+            <column name="description" type="VARCHAR(255)" />
+            <column name="status" type="VARCHAR(50)" />
+            <column name="organisation_id" type="BIGINT" />
+            <column name="private_description" type="VARCHAR(255)" />
+            <column name="creator_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
 
@@ -89,12 +89,117 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="Name" type="VARCHAR(255)" />
-            <column name="Description" type="VARCHAR(255)" />
-            <column name="Type" type="VARCHAR(255)"  />
-            <column name="Status" type="VARCHAR(45)" />
-            <column name="OrganisationId" type="BIGINT" />
-            <column name="Matches" type="VARCHAR(255)" />
+            <column name="name" type="VARCHAR(255)" />
+            <column name="description" type="VARCHAR(255)" />
+            <column name="type" type="VARCHAR(255)"  />
+            <column name="status" type="VARCHAR(50)" />
+            <column name="organisation_id" type="BIGINT" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="cg1-19122024" author="cg">
+        <createTable tableName="OrganisationEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(50)"/>
+        </createTable>
+
+        <createTable tableName="PlayerOrganisationLinkEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organisation_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="admin" type="bit(1)"/>
+        </createTable>
+
+        <createTable tableName="PlayerMatchLinkEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="match_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)"/>
+        </createTable>
+
+        <createTable tableName="TeamMatchLinkEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="team_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="match_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)"/>
+        </createTable>
+
+        <createTable tableName="PlayerTeamLinkEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="team_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)"/>
+        </createTable>
+
+        <dropTable tableName = "LocationEntity" />
+        <createTable tableName="LocationEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="point_value" type="POINT"/>
+            <column name="maps_link" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(50)"/>
+        </createTable>
+
+        <dropTable tableName = "AdvertEntity" />
+        <createTable tableName="AdvertEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="match_id" type="BIGINT"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(50)"/>
+        </createTable>
+
+        <createTable tableName="DropInRequestEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="match_id" type="BIGINT" />
+            <column name="player_id" type="BIGINT"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="request_message" type="VARCHAR(255)"/>
+            <column name="request_response" type="VARCHAR(255)"/>
+        </createTable>
+
+        <dropTable tableName="PlayerEntity"/>
+        <createTable tableName="PlayerEntity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(50)"/>
         </createTable>
     </changeSet>
 
