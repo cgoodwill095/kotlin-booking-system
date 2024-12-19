@@ -53,5 +53,136 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="im1-19122024" author="im">
+
+        <addColumn tableName="OrganisationEntity">
+            <column name="Matches" type="BIGINT NOT NULL"/>
+        </addColumn>
+        <dropColumn tableName="OrganisationEntity">
+            <column name="Players" type="BIGINT NOT NULL" />
+        </dropColumn>
+        <addColumn tableName="OrganisationEntity">
+            <column name="Tournaments" type="BIGINT NOT NULL"/>
+        </addColumn>
+        <addColumn tableName="OrganisationEntity">
+            <column name="Admins" type="BIGINT NOT NULL"/>
+        </addColumn>
+        <addColumn tableName="OrganisationEntity">
+            <column name="Name" type="VARCHAR(255) NOT NULL"/>
+        </addColumn>
+        <addColumn tableName="OrganisationEntity">
+            <column name="Description" type="VARCHAR(255) NOT NULL"/>
+        </addColumn>
+        <addColumn tableName="OrganisationEntity">
+            <column name="Status" type="VARCHAR(255) NOT NULL"/>
+        </addColumn>
+
+        <addColumn tableName="LocationEntity">
+            <column name="Name" type="VARCHAR(255) NOT NULL"/>
+        </addColumn>
+        <dropColumn tableName="LocationEntity">
+            <column name="PointValue" type="POINT NOT NULL" />
+        </dropColumn>
+        <addColumn tableName="LocationEntity">
+            <column name="MapsLink" type="VARCHAR(255)"/>
+        </addColumn>
+        <addColumn tableName="LocationEntity">
+            <column name="Status" type="VARCHAR(255) NOT NULL"/>
+        </addColumn>
+
+        <addColumn tableName="UserEntity">
+            <column name="Status" type="VARCHAR(50) NOT NULL"/>
+        </addColumn>
+
+        <dropColumn tableName="DropInRequestEntity">
+            <column name="PlayersId" type="BIGINT NOT NULL" />
+        </dropColumn>
+        <addColumn tableName="DropInRequestEntity">
+            <column name="MatchId" type="BIGINT NOT NULL"/>
+        </addColumn>
+        <addColumn tableName="DropInRequestEntity">
+            <column name="Status" type="VARCHAR(50) NOT NULL"/>
+        </addColumn>
+        <addColumn tableName="DropInRequestEntity">
+            <column name="RequestMessage" type="VARCHAR(255) NOT NULL"/>
+        </addColumn>
+
+        <addColumn tableName="AdvertEntity">
+            <column name="MatchId" type="BIGINT NOT NULL"/>
+        </addColumn>
+
+        <dropColumn tableName="PlayerEntity">
+            <column name="Name" type="VARCHAR(255) NULL" />
+        </dropColumn>
+        <addColumn tableName="PlayerEntity">
+            <column name="Status" type="VARCHAR(255) NULL"/>
+        </addColumn>
+        <addColumn tableName="PlayerEntity">
+            <column name="UserID" type="BIGINT NOT NULL" />
+        </addColumn>
+
+        <dropColumn tableName="TeamEntity">
+            <column name="Name" type="VARCHAR(45) NULL" />
+        </dropColumn>
+        <addColumn tableName="TeamEntity">
+            <column name="Description" type="VARCHAR(255) NULL"/>
+        </addColumn>
+        <addColumn tableName="TeamEntity">
+            <column name="Active" type="INT NULL" />
+        </addColumn>
+        <addColumn tableName="TeamEntity">
+            <column name="HomeGround" type="INT NULL" />
+        </addColumn>
+        <addColumn tableName="TeamEntity">
+            <column name="Players" type="BIGINT NOT NULL COMMENT 'LINK TABLE'" />
+        </addColumn>
+        <addColumn tableName="TeamEntity">
+            <column name="Type" type="VARCHAR(255) NOT NULL" />
+        </addColumn>
+
+        <dropColumn tableName="MatchEntity">
+            <column name="LocationId" type="BIGINT NOT NULL" />
+        </dropColumn>
+        <addColumn tableName="MatchEntity">
+            <column name="Teams" type="INT NULL"/>
+        </addColumn>
+        <addColumn tableName="MatchEntity">
+            <column name="Description" type="VARCHAR(255)" />
+        </addColumn>
+        <addColumn tableName="MatchEntity">
+            <column name="Status" type="VARCHAR(45)" />
+        </addColumn>
+        <addColumn tableName="MatchEntity">
+            <column name="OrganisationId" type="BIGINT NULL" />
+        </addColumn>
+        <addColumn tableName="MatchEntity">
+            <column name="PrivateDescription" type="VARCHAR(255) NOT NULL" />
+        </addColumn>
+        <addColumn tableName="MatchEntity">
+            <column name="CreatorId" type="INT NOT NULL" />
+        </addColumn>
+
+
+        <dropColumn tableName="TournamentEntity">
+            <column name="Name" type="VARCHAR(255) NULL" />
+        </dropColumn>
+        <addColumn tableName="TournamentEntity">
+            <column name="Description" type="VARCHAR(255) NULL" />
+        </addColumn>
+        <addColumn tableName="TournamentEntity">
+            <column name="Type" type="VARCHAR(255) NULL"  />
+        </addColumn>
+        <addColumn tableName="TournamentEntity">
+            <column name="Status" type="VARCHAR(45) NULL" />
+        </addColumn>
+        <addColumn tableName="TournamentEntity">
+            <column name="OrganisationId" type="BIGINT NULL" />
+        </addColumn>
+        <addColumn tableName="TournamentEntity">
+            <column name="Matches" type="VARCHAR(255) NOT NULL" />
+        </addColumn>
+    </changeSet>
+
+
 
 </databaseChangeLog>
