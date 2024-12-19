@@ -84,6 +84,7 @@
             </column>
         </createTable>
 
+        <dropTable tableName="TournamentEntity"/>
 
         <createTable tableName="TournamentEntity">
             <column name="id" type="BIGINT" autoIncrement="true">
