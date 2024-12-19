@@ -7,7 +7,7 @@ import jakarta.persistence.Id
 import org.springframework.data.geo.Point
 
 @Entity
-class LocationEntity(
+open class LocationEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,

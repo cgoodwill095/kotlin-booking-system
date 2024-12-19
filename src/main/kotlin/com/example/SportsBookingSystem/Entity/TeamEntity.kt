@@ -3,7 +3,7 @@ package com.example.SportsBookingSystem.Entity
 import jakarta.persistence.*
 
 @Entity
-        class TeamEntity(
+open class TeamEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,
