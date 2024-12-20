@@ -9,6 +9,6 @@ open class UserEntity(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,
         var username: String,
-        var password: String
-        ) {
+        var password: String,
+) {
 }
