@@ -94,7 +94,28 @@ class LocationSeriveUnitTest
        val result = locationServices.findLocationById(1)
        assertEquals(location, result)
        verify { locationServices.findLocationById(1) }
-
    }
 
+    @Test
+    fun finAllLocation_thenReturnAll()
+    {
+        val geolocation = Point(10.2,11.2)
+        val location = LocationEntity(
+            1,
+            "name",
+            "dis",
+            true,
+            geolocation)
+        val updatedLocation = LocationEntity(
+            1,
+            "nameUpdated",
+            "disUpdayed",
+            true,
+            geolocation)
+        val locations = listOf(location,updatedLocation)
+        every { locationServices.findAllLocation() } returns locations
+        val result = locationServices.findAllLocation()
+        assertEquals(locations, result)
+        verify { locationServices.findAllLocation() }
+    }
 }

@@ -1,0 +1,10 @@
+Use cases
+Personas:
+WWDD (What would Dylan do)/Racy Dave/Uni Student/University/Large workplace
+
+
+As Dylan
+When
+Then
+
+

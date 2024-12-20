@@ -39,6 +39,7 @@ class SecurityConfig {
                 authorize("/login", permitAll)
                 authorize("/index", permitAll)
                 authorize("/", permitAll)
+                authorize("/api/**", permitAll)
                 authorize("/admin", hasRole("USER"))
                 authorize(anyRequest, authenticated)
             }

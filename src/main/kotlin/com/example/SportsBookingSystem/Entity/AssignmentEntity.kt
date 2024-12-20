@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
-class AssignmentEntity(
+open class AssignmentEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,
