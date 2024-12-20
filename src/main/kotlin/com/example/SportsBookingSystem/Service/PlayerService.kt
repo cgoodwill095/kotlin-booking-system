@@ -3,13 +3,15 @@ import com.example.SportsBookingSystem.DTO.Player.PlayerBasicGetDTO
 import com.example.SportsBookingSystem.Entity.PlayerEntity
 import com.example.SportsBookingSystem.Mapper.PlayerMapper
 import com.example.SportsBookingSystem.Repository.PlayerRepository
+import com.example.SportsBookingSystem.Repository.PlayerTeamLinkRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.NoSuchElementException
 @Service
 class PlayerService(private val playerRepository: PlayerRepository,
-        private val playerMapper: PlayerMapper)
+        private val playerMapper: PlayerMapper,
+        private val playerTeamLinkRepository: PlayerTeamLinkRepository)
 {
     @Transactional
     fun getPLayerById(id:Long): Optional<PlayerEntity>
@@ -70,6 +72,16 @@ class PlayerService(private val playerRepository: PlayerRepository,
         val playersDTO = mutableListOf(PlayerBasicGetDTO())
         for(player in players){
             playersDTO.add(playerMapper.mapEntityToBasicGetDTO(player))
+        }
+        return playersDTO
+    }
+
+    @Transactional
+    fun findAllByTeam(teamId: Long): List<PlayerBasicGetDTO>
+    {
+        val playersDTO = mutableListOf(PlayerBasicGetDTO())
+        for(link in playerTeamLinkRepository.getByTeamId(teamId)){
+            playersDTO.add(playerMapper.mapEntityToBasicGetDTO(link.player))
         }
         return playersDTO
     }
