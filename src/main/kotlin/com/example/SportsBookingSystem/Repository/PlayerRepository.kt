@@ -9,6 +9,7 @@ interface PlayerRepository : JpaRepository<PlayerEntity, Long>
 {
     fun existsById(id:Long?):Boolean
 
+
     fun findAllByStatus(status: String):List<PlayerEntity>
 }
 

@@ -14,7 +14,7 @@ class PlayerService(private val playerRepository: PlayerRepository,
         private val playerTeamLinkRepository: PlayerTeamLinkRepository)
 {
     @Transactional
-    fun getPLayerById(id:Long): Optional<PlayerEntity>
+    fun getPlayerById(id:Long): Optional<PlayerEntity>
     {
         return playerRepository.findById(id)
     }
@@ -89,6 +89,10 @@ class PlayerService(private val playerRepository: PlayerRepository,
     fun findAllActive(status: String):List<PlayerEntity>
     {
         return playerRepository.findAllByStatus(status)
+    }
+
+    fun mapEntityToBasicDTO(playerEntity: PlayerEntity):PlayerBasicGetDTO{
+        return playerMapper.mapEntityToBasicGetDTO(playerEntity)
     }
 
 }

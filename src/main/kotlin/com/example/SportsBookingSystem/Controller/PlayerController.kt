@@ -23,7 +23,7 @@ class PlayerController(private val playerService: PlayerService) {
     @GetMapping("/get{id}")
     fun getPlayerById(@PathVariable id: Long): ResponseEntity<PlayerEntity>
     {
-        val player = playerService.getPLayerById(id)
+        val player = playerService.getPlayerById(id)
 
         if(player.isEmpty)
         {
