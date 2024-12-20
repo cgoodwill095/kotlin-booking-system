@@ -1,0 +1,96 @@
+Player - Player 1:1 User
+	-As a player, I want 
+		-to see local matches -   
+			GET - /match/location/{point}:
+			GET - /match/location/{point}{matchStatus}
+    get:
+		-to register to join a local matches
+			POST - /match/player/{playerId}{matchId}{requestStatus}
+		-to join a team (down through invite only?)
+			POST - /team/player/{teamId}{playerId}
+		-to join an org
+			POST - /organisation/player/{orgId}{playerId}
+			-to see org matches
+			 GET - /organisation/matches/{orgId}
+			-to join org matches
+			 POST - /match/player/{playerId}{matchId}{requestStatus}
+			-to see org match results
+			 GET - /organisation/matches
+		-to see my game history
+			GET - /match/player/{playerId}
+		-edit my profile to show my socials, etc
+			put -/player/{playerId}
+	-Values
+		-Name
+		-Status
+		-Teams(Optional)
+		
+Team
+	-As a team, 
+		- I want to be able to have a team admin
+			-To set up matches
+			POST - /match/
+			-To approve / invite new players - invite doesn't need to be MVP
+			POST - /team/players/{teamId}{playerId}
+			PUT - 
+			-To edit the team description, etc
+			PUT - /team/
+			-To join tournaments
+			POST /tournament/team/{tournamentId}{teamId}
+	-Values
+		-Name
+		-Description (Optional)
+		-Players (Optional)
+		-Status
+		-Type (e.g. org team/standard team/ drop-in team - no set squads etc)
+		-Admins?
+
+Match
+	-A team or organisation should be able to create matches
+	-A player should be able to create a drop-in match
+	-A player should be able to input the score (and have a player from both teams auth it?)
+	-When created, mark as either a set match (set teams), or a drop-in match (no specific teams/players)
+	-Values
+		-Location
+		-Teams (Optional - type of match)
+		-Players (Mandatory at least 1 if set match or drop-in, if org match, optional)
+		-Type (Org, Set match, drop-in)
+		-Creator/Admin (Mandatory)
+		-TournamentId(Optional)
+		-HomeScore (Optional)
+		-AwayScore (Optional)
+		-Status (Mandatory)
+	
+Tournament
+	- Name
+	- Description
+	- Type
+	- Teams
+	- Status
+	- Fixtures (depending on type?) - May not imp for MVP
+Organisation
+	-Name
+	-Description
+	-Admin
+	-Teams
+	-Players
+	-Matches
+	-Tournaments
+Advert
+	-Creator/Admin
+	-Signed on players (drop in)
+	-Teams
+	-Matches
+	-Tournaments
+Location
+	-Name
+	-Point
+	-GoogleMaps link?
+User
+	-Name
+	-Role
+	-Player (1-1)
+DropInRequest
+	-Player
+	-Match
+	-Status
