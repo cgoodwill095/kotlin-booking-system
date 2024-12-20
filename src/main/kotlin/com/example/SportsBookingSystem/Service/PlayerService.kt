@@ -70,6 +70,7 @@ class PlayerService(private val playerRepository: PlayerRepository,
     {
         val players : List<PlayerEntity> = playerRepository.findAll()
         val playersDTO = mutableListOf(PlayerBasicGetDTO())
+        playersDTO.removeAt(0)
         for(player in players){
             playersDTO.add(playerMapper.mapEntityToBasicGetDTO(player))
         }
@@ -80,8 +81,20 @@ class PlayerService(private val playerRepository: PlayerRepository,
     fun findAllByTeam(teamId: Long): List<PlayerBasicGetDTO>
     {
         val playersDTO = mutableListOf(PlayerBasicGetDTO())
+        playersDTO.removeAt(0)
         for(link in playerTeamLinkRepository.getByTeamId(teamId)){
             playersDTO.add(playerMapper.mapEntityToBasicGetDTO(link.player))
+        }
+        return playersDTO
+    }
+
+    @Transactional
+    fun findAllByStatus(status: String): List<PlayerBasicGetDTO>
+    {
+        val playersDTO = mutableListOf(PlayerBasicGetDTO())
+        playersDTO.removeAt(0)
+        for(player in playerRepository.findAllByStatus(status)){
+            playersDTO.add(playerMapper.mapEntityToBasicGetDTO(player))
         }
         return playersDTO
     }

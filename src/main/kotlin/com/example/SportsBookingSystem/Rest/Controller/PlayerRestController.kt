@@ -26,29 +26,31 @@ class PlayerRestController(private val playerService: PlayerService) {
     @GetMapping("/findAllBasic")
     fun findAll(): List<PlayerBasicGetDTO>
     {
-        if(playerService.findAllBasicDTO().isEmpty())
+        val playerDTOs = playerService.findAllBasicDTO()
+        if(playerDTOs.isEmpty())
         {
             throw NoSuchElementException("There are no players registered")
         }
-        return playerService.findAllBasicDTO()
+        return playerDTOs
     }
 
-    // http -a user:password get http://localhost:8090/api/player/team/findAll?teamId=1
-    @GetMapping("/team/findAll")
+    // http -a user:password get http://localhost:8090/api/player/team/findPlayers?teamId=1
+    @GetMapping("/team/findPlayers")
     fun findAllByTeam(@RequestParam teamId: Int): List<PlayerBasicGetDTO>
     {
         val id : Long = teamId.toLong()
         return playerService.findAllByTeam(id)
     }
 
-    @GetMapping("/findByStatus/{status}")
-    fun findByStatus(): List<PlayerEntity>
+    // http -a user:password get http://localhost:8090/api/player/findByStatus?status="active"
+    @GetMapping("/findByStatus")
+    fun findByStatus(@RequestParam status: String): List<PlayerBasicGetDTO>
     {
-        if(playerService.findAll().isEmpty())
+        if(playerService.findAllByStatus(status).isEmpty())
         {
             throw NoSuchElementException("There are no players with this status")
         }
-        return playerService.findAll()
+        return playerService.findAllByStatus(status)
     }
 
 
