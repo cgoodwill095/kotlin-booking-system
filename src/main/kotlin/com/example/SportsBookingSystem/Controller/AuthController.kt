@@ -14,4 +14,9 @@ class AuthController() {
     fun login(): String {
         return "login"
     }
+
+    @GetMapping("/admin")
+    fun loggedIn():String{
+        return "admin"
+    }
 }

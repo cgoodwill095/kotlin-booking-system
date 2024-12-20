@@ -2,29 +2,38 @@ package com.example.SportsBookingSystem.Rest.Controller
 
 import com.example.SportsBookingSystem.Entity.PlayerEntity
 import com.example.SportsBookingSystem.Service.PlayerService
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.util.Optional
 
 @RestController
 @RequestMapping("/api/player")
 class PlayerRestController(private val playerService: PlayerService) {
 
+    // http -a user:password get http://localhost:8090/api/player/findById?playerId=3
+    @GetMapping("/findById")
+    fun findById(@RequestParam playerId: Int): PlayerEntity
+    {
+        val playerEntity: Optional<PlayerEntity> = playerService.getPLayerById(playerId.toLong())
+        if(playerEntity.isPresent){
+            return playerEntity.get()
+        }
+        else{
+            throw NoSuchElementException("There are no players registered with that ID")
+        }
+    }
+// http -a user:password get http://localhost:8090/api/player/findall
     @GetMapping("/findAll")
     fun findAll(): List<PlayerEntity>
     {
         if(playerService.findAll().isEmpty())
         {
-            throw NoSuchElementException("There is no players registered")
+            throw NoSuchElementException("There are no players registered")
         }
         return playerService.findAll()
     }
 
-    @GetMapping("/team/findAll/{teamId}")
-    fun findAllByTeam(): List<PlayerEntity>
+    @GetMapping("/team/findAll")
+    fun findAllByTeam(@RequestParam teamId: Int): List<PlayerEntity>
     {
         if(playerService.findAll().isEmpty())
         {

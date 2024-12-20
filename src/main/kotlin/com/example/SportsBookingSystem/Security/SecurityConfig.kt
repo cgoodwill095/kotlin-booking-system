@@ -40,7 +40,8 @@ class SecurityConfig {
                 authorize("/index", permitAll)
                 authorize("/", permitAll)
                 authorize("/api/**", permitAll)
-                authorize("/admin", hasRole("USER"))
+                authorize("/api", permitAll)
+                authorize("/admin", permitAll)
                 authorize(anyRequest, authenticated)
             }
             formLogin {
@@ -66,7 +67,7 @@ class SecurityConfig {
         http {
             securityMatcher("/api/**")
             authorizeHttpRequests {
-                authorize(anyRequest, hasRole("API"))
+                authorize(anyRequest, hasRole("ADMIN"))
             }
             httpBasic { }
         }

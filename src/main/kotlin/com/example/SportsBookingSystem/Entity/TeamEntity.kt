@@ -10,5 +10,7 @@ open class TeamEntity(
         var name: String,
         var description: String,
         var status: String,
-        var homeground: Long) {
+        var homeground: Long,
+        @OneToMany(mappedBy = "team" , targetEntity = PlayerTeamLinkEntity::class)
+        var playerTeamLinks: Set<PlayerTeamLinkEntity>) {
 }

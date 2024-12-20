@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class AdminController
 {
 
-    @GetMapping("/admin")
+    @GetMapping("/")
     fun admin(): String {
         return "admin"
     }
