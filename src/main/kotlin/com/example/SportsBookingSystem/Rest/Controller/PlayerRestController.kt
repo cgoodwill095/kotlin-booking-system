@@ -1,5 +1,6 @@
 package com.example.SportsBookingSystem.Rest.Controller
 
+import com.example.SportsBookingSystem.DTO.Player.PlayerBasicGetDTO
 import com.example.SportsBookingSystem.Entity.PlayerEntity
 import com.example.SportsBookingSystem.Service.PlayerService
 import org.springframework.web.bind.annotation.*
@@ -22,14 +23,14 @@ class PlayerRestController(private val playerService: PlayerService) {
         }
     }
 // http -a user:password get http://localhost:8090/api/player/findall
-    @GetMapping("/findAll")
-    fun findAll(): List<PlayerEntity>
+    @GetMapping("/findAllBasic")
+    fun findAll(): List<PlayerBasicGetDTO>
     {
-        if(playerService.findAll().isEmpty())
+        if(playerService.findAllBasicDTO().isEmpty())
         {
             throw NoSuchElementException("There are no players registered")
         }
-        return playerService.findAll()
+        return playerService.findAllBasicDTO()
     }
 
     @GetMapping("/team/findAll")
