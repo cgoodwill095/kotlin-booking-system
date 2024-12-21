@@ -34,8 +34,8 @@ class TeamService(private val teamRepository: TeamRepository)
         if(teamExists != null)
         {
             teamExists.name = team.name
-            teamExists.homeground = team.homeground
-            teamExists.status = team.status
+            teamExists.home_ground = team.home_ground
+            teamExists.active = team.active
             teamExists.description = team.description
             return teamRepository.save(team)
         }

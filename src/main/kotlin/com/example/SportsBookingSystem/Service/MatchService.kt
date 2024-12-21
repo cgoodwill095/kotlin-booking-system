@@ -35,9 +35,7 @@ class MatchService(private val matchRepository: MatchRepository)
         {
             existingmatch.status = match.status
             existingmatch.description = match.description
-            existingmatch.homeScore = match.homeScore
-            existingmatch.awayScore = match.awayScore
-            return matchRepository.save(existingmatch)
+             return matchRepository.save(existingmatch)
         }
         throw NoSuchElementException("Match does not exist")
     }
