@@ -11,7 +11,7 @@ open class TeamMatchLinkEntity(
         @JoinColumn(name = "team_id")
         var team: TeamEntity,
         @ManyToOne
-        @JoinColumn(name = "player_id")
+        @JoinColumn(name = "match_id")
         var match: MatchEntity,
         var status: String) {
 }

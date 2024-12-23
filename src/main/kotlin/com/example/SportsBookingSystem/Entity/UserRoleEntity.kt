@@ -7,9 +7,13 @@ open class UserRoleEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,
-        var userId: Int,
-        var userRole: String
-        )
+        @OneToOne
+        @JoinColumn(name= "userId", referencedColumnName = "id")
+        var user : UserEntity,
+        var userRole: String,
+
+
+)
 {
 
 }

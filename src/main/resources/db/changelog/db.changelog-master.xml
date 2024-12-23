@@ -22,6 +22,7 @@
             <column name="password" type="VARCHAR(255)"/>
             <column name="active" type="bit(1)"/>
         </createTable>
+
         <createTable tableName="UserRoleEntity">
             <column name="id" type="int">
                 <constraints primaryKey="true"/>
