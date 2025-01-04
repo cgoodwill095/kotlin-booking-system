@@ -1,20 +1,30 @@
 package com.example.SportsBookingSystem.Service
+import com.example.SportsBookingSystem.DTO.Match.MatchGetDTO
 import com.example.SportsBookingSystem.Entity.MatchEntity
+import com.example.SportsBookingSystem.Mapper.MatchMapper
 import com.example.SportsBookingSystem.Repository.MatchRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.util.Optional
 import kotlin.NoSuchElementException
 @Service
-class MatchService(private val matchRepository: MatchRepository)
+class MatchService(private val matchRepository: MatchRepository,
+    private val matchMapper: MatchMapper)
 {
     @Transactional
-    fun getmatchById(id: Long): MatchEntity?
+    fun getmatchById(id: Long): Optional<MatchEntity>
     {
         if(matchRepository.existsById(id))
         {
-            return matchRepository.getReferenceById(id)
+            return matchRepository.findById(id)
         }
         throw NoSuchElementException("This Match doesn't exist")
+    }
+
+    @Transactional
+    fun getMatchByLocationId(id:Long): Optional<MatchEntity>
+    {
+        return matchRepository.findByLocation_id(id)
     }
 
     @Transactional
@@ -30,12 +40,13 @@ class MatchService(private val matchRepository: MatchRepository)
     @Transactional
     fun updateMatch(id:Long, match:MatchEntity):MatchEntity
     {
-        val existingmatch = matchRepository.getReferenceById(id)
-        if(existingmatch != null)
+        val matchEntity: Optional<MatchEntity> = matchRepository.findById(id)
+
+        if(matchEntity.isPresent)
         {
-            existingmatch.status = match.status
-            existingmatch.description = match.description
-             return matchRepository.save(existingmatch)
+            matchEntity.get().status = match.status
+            matchEntity.get().description = match.description
+            return matchRepository.save(matchEntity.get())
         }
         throw NoSuchElementException("Match does not exist")
     }
@@ -61,5 +72,49 @@ class MatchService(private val matchRepository: MatchRepository)
     fun findAllMatches(): List<MatchEntity>
     {
         return matchRepository.findAll()
+    }
+
+    @Transactional
+    fun finalAllGetDTO():List<MatchGetDTO>
+    {
+        val matches:List<MatchEntity> = matchRepository.findAll()
+        if (!matches.isEmpty())
+        {
+            val matchDTO = mutableListOf<MatchGetDTO>()
+            for(match in matches)
+            {
+                matchDTO.add(matchMapper.mapEntityToBasicGetDTO(match))
+            }
+            return matchDTO
+        }
+        throw NoSuchElementException("There are currently no matches")
+    }
+
+    @Transactional
+    fun findAllByStatus(status: String):List<MatchGetDTO>
+    {
+        val matchDTO = mutableListOf<MatchGetDTO>()
+        for (match in matchRepository.findAllByStatus(status))
+        {
+           matchDTO.add(matchMapper.mapEntityToBasicGetDTO(match))
+        }
+        return matchDTO
+    }
+
+    @Transactional
+    fun findAllByDesciption(description: String):List<MatchGetDTO>
+    {
+        val matchDTO = mutableListOf<MatchGetDTO>()
+        for (match in matchRepository.findAllByStatus(description))
+        {
+            matchDTO.add(matchMapper.mapEntityToBasicGetDTO(match))
+        }
+        return matchDTO
+    }
+
+    @Transactional
+    fun mapEnitiyToGetDTO(match: MatchEntity): MatchGetDTO
+    {
+        return matchMapper.mapEntityToBasicGetDTO(match)
     }
 }
