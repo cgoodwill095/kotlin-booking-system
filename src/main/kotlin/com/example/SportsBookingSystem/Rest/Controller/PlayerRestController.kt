@@ -1,46 +1,56 @@
 package com.example.SportsBookingSystem.Rest.Controller
 
+import com.example.SportsBookingSystem.DTO.Player.PlayerBasicGetDTO
 import com.example.SportsBookingSystem.Entity.PlayerEntity
 import com.example.SportsBookingSystem.Service.PlayerService
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.util.Optional
 
 @RestController
 @RequestMapping("/api/player")
 class PlayerRestController(private val playerService: PlayerService) {
 
-    @GetMapping("/findAll")
-    fun findAll(): List<PlayerEntity>
+    // http -a user:password get http://localhost:8090/api/player/findById?playerId=3
+    @GetMapping("/findById")
+    fun findById(@RequestParam playerId: Int): PlayerBasicGetDTO
     {
-        if(playerService.findAll().isEmpty())
-        {
-            throw NoSuchElementException("There is no players registered")
+        val playerEntity: Optional<PlayerEntity> = playerService.getPlayerById(playerId.toLong())
+        if(playerEntity.isPresent){
+            return playerService.mapEntityToBasicDTO(playerEntity.get())
         }
-        return playerService.findAll()
+        else{
+            throw NoSuchElementException("There are no players registered with that ID")
+        }
+    }
+    // http -a user:password get http://localhost:8090/api/player/findall
+    @GetMapping("/findAllBasic")
+    fun findAll(): List<PlayerBasicGetDTO>
+    {
+        val playerDTOs = playerService.findAllBasicDTO()
+        if(playerDTOs.isEmpty())
+        {
+            throw NoSuchElementException("There are no players registered")
+        }
+        return playerDTOs
     }
 
-    @GetMapping("/team/findAll/{teamId}")
-    fun findAllByTeam(): List<PlayerEntity>
+    // http -a user:password get http://localhost:8090/api/player/team/findPlayers?teamId=1
+    @GetMapping("/team/findPlayers")
+    fun findAllByTeam(@RequestParam teamId: Int): List<PlayerBasicGetDTO>
     {
-        if(playerService.findAll().isEmpty())
-        {
-            throw NoSuchElementException("There is no players registered")
-        }
-        return playerService.findAll()
+        val id : Long = teamId.toLong()
+        return playerService.findAllByTeam(id)
     }
 
-    @GetMapping("/findByStatus/{status}")
-    fun findByStatus(): List<PlayerEntity>
+    // http -a user:password get http://localhost:8090/api/player/findByStatus?status="active"
+    @GetMapping("/findByStatus")
+    fun findByStatus(@RequestParam status: String): List<PlayerBasicGetDTO>
     {
-        if(playerService.findAll().isEmpty())
+        if(playerService.findAllByStatus(status).isEmpty())
         {
-            throw NoSuchElementException("There is no players registered")
+            throw NoSuchElementException("There are no players with this status")
         }
-        return playerService.findAll()
+        return playerService.findAllByStatus(status)
     }
 
 

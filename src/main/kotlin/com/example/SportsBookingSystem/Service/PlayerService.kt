@@ -1,15 +1,21 @@
 package com.example.SportsBookingSystem.Service
+import com.example.SportsBookingSystem.DTO.Player.PlayerBasicGetDTO
 import com.example.SportsBookingSystem.Entity.PlayerEntity
+import com.example.SportsBookingSystem.Mapper.PlayerMapper
 import com.example.SportsBookingSystem.Repository.PlayerRepository
+import com.example.SportsBookingSystem.Repository.PlayerTeamLinkRepository
 import jakarta.transaction.Transactional
+import org.springframework.data.jpa.domain.AbstractPersistable_.ID
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.NoSuchElementException
 @Service
-class PlayerService(private val playerRepository: PlayerRepository)
+class PlayerService(private val playerRepository: PlayerRepository,
+        private val playerMapper: PlayerMapper,
+        private val playerTeamLinkRepository: PlayerTeamLinkRepository)
 {
     @Transactional
-    fun getPLayerById(id:Long): Optional<PlayerEntity>
+    fun getPlayerById(id:Long): Optional<PlayerEntity>
     {
         return playerRepository.findById(id)
     }
@@ -28,7 +34,6 @@ class PlayerService(private val playerRepository: PlayerRepository)
     fun updatePlayer(id: Long, player:PlayerEntity):PlayerEntity
     {
         val playerEntity: Optional<PlayerEntity> = playerRepository.findById(id)
-
 
         if(playerEntity.isPresent)
         {
@@ -61,9 +66,43 @@ class PlayerService(private val playerRepository: PlayerRepository)
     }
 
     @Transactional
+    fun findAllBasicDTO(): List<PlayerBasicGetDTO>
+    {
+        val players : List<PlayerEntity> = playerRepository.findAll()
+        val playersDTO = mutableListOf<PlayerBasicGetDTO>();
+        for(player in players){
+            playersDTO.add(playerMapper.mapEntityToBasicGetDTO(player))
+        }
+        return playersDTO
+    }
+
+    @Transactional
+    fun findAllByTeam(teamId: Long): List<PlayerBasicGetDTO>
+    {
+        val playersDTO = mutableListOf<PlayerBasicGetDTO>();
+        for(link in playerTeamLinkRepository.getByTeamId(teamId)){
+            playersDTO.add(playerMapper.mapEntityToBasicGetDTO(link.player))
+        }
+        return playersDTO
+    }
+
+    @Transactional
+    fun findAllByStatus(status: String): List<PlayerBasicGetDTO>
+    {
+        val playersDTO = mutableListOf<PlayerBasicGetDTO>();
+        for(player in playerRepository.findAllByStatus(status)){
+            playersDTO.add(playerMapper.mapEntityToBasicGetDTO(player))
+        }
+        return playersDTO
+    }
+    @Transactional
     fun findAllActive(status: String):List<PlayerEntity>
     {
         return playerRepository.findAllByStatus(status)
+    }
+
+    fun mapEntityToBasicDTO(playerEntity: PlayerEntity):PlayerBasicGetDTO{
+        return playerMapper.mapEntityToBasicGetDTO(playerEntity)
     }
 
 }
