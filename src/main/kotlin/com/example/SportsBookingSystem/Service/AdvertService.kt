@@ -1,19 +1,22 @@
 package com.example.SportsBookingSystem.Service
+import com.example.SportsBookingSystem.DTO.Advert.AdvertBasicDTO
 import com.example.SportsBookingSystem.Entity.AdvertEntity
+import com.example.SportsBookingSystem.Mapper.AdvertMapper
 import com.example.SportsBookingSystem.Repository.AdvertRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.util.*
 import kotlin.NoSuchElementException
 
 @Service
-class AdvertService(private val advertRepository: AdvertRepository)
+class AdvertService(private val advertRepository: AdvertRepository, private val advertMapper: AdvertMapper)
 {
     @Transactional
-    fun getAdvertById(id:Long): AdvertEntity?
+    fun getAdvertById(id:Long): Optional<AdvertEntity>
     {
         if(advertRepository.existsById(id))
         {
-            return advertRepository.findAdvertById(id)
+            return advertRepository.findById(id)
         }
         throw NoSuchElementException("This advert doesn't exist")
     }
@@ -31,14 +34,14 @@ class AdvertService(private val advertRepository: AdvertRepository)
     @Transactional
     fun updateAdvert(id:Long, advert: AdvertEntity):AdvertEntity
     {
-        val advertExist = advertRepository.findAdvertById(id)
+        val advertExist: Optional<AdvertEntity> = advertRepository.findAdvertById(id)
 
-        if(advertExist!=null)
+        if(advertExist.isPresent)
         {
-            advertExist.adtype = advert.adtype
-            advertExist.status = advert.status
-            advertExist.hyperlink = advert.hyperlink
-            return advertRepository.save(advert)
+            advertExist.get().adtype = advert.adtype
+            advertExist.get().status = advert.status
+            advertExist.get().hyperlink = advert.hyperlink
+            return advertRepository.save(advertExist.get())
         }
         throw NoSuchElementException("Advert doesn't exist")
     }
@@ -54,7 +57,7 @@ class AdvertService(private val advertRepository: AdvertRepository)
     }
 
     @Transactional
-    fun findAdvertById(id:Long): AdvertEntity
+    fun findAdvertById(id:Long): AdvertEntity?
     {
         return advertRepository.findById(id)
             .orElseThrow{NoSuchElementException("Advert doesn't exist")}
@@ -66,11 +69,22 @@ class AdvertService(private val advertRepository: AdvertRepository)
         return advertRepository.findAll()
     }
 
-}
+    @Transactional
+    fun findBasicDTO(): List<AdvertBasicDTO>
+    {
+        val adverts = advertRepository.findAll()
+        val advertDTO = mutableListOf<AdvertBasicDTO>()
 
-//var adtype: String,
-//var hyperlink: String,
-//var matchId: Long?,
-//var teamId: Long?,
-//var tournamentId: Long?,
-//var status: String,
+        for (advert in adverts)
+        {
+            advertDTO.add(advertMapper.mapAdvertEntityToAdvertBasicDTO(advert))
+        }
+        return advertDTO
+    }
+
+    @Transactional
+    fun mapEntityToBasicDTO(advert: AdvertEntity):AdvertBasicDTO
+    {
+        return advertMapper.mapAdvertEntityToAdvertBasicDTO(advert)
+    }
+}

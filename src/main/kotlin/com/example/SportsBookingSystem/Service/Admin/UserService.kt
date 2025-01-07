@@ -39,10 +39,10 @@ class UserService(
         userRepository.delete(user)
     }
 
-    fun createAdmin(){
-        val user = UserEntity(2L, "admin", "password")
-        createUser(user)
-
-    }
+//    fun createAdmin(){
+//        val user = UserEntity(2L, "admin", "password")
+//        createUser(user)
+//
+//    }
 
 }
