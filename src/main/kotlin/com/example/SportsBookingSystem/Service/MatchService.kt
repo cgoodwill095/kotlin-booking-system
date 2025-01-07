@@ -21,11 +21,11 @@ class MatchService(private val matchRepository: MatchRepository,
         throw NoSuchElementException("This Match doesn't exist")
     }
 
-    @Transactional
-    fun getMatchByLocationId(id:Long): Optional<MatchEntity>
-    {
-        return matchRepository.findByLocation_id(id)
-    }
+//    @Transactional
+//    fun getMatchByLocationId(id:Long): Optional<MatchEntity>
+//    {
+//        return matchRepository.findByLocation_id(id)
+//    }
 
     @Transactional
     fun createMatch(match: MatchEntity):MatchEntity
@@ -105,7 +105,7 @@ class MatchService(private val matchRepository: MatchRepository,
     fun findAllByDesciption(description: String):List<MatchGetDTO>
     {
         val matchDTO = mutableListOf<MatchGetDTO>()
-        for (match in matchRepository.findAllByStatus(description))
+        for (match in matchRepository.findAllByDescription(description))
         {
             matchDTO.add(matchMapper.mapEntityToBasicGetDTO(match))
         }

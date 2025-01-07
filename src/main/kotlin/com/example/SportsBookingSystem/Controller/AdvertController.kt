@@ -15,12 +15,7 @@ class AdvertController(private val advertService: AdvertService)
         return advertService.findAllAdverts()
 
     }
-    @GetMapping("/get{id}")
-    fun getAdvertById(@PathVariable id:Long):ResponseEntity<AdvertEntity>
-    {
-        val getAdvert = advertService.getAdvertById(id)
-        return ResponseEntity.ok(getAdvert)
-    }
+
     @GetMapping("/find{id}")
     fun findAdvertById(@PathVariable id:Long):ResponseEntity<AdvertEntity>
     {

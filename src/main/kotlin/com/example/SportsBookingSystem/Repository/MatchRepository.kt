@@ -10,6 +10,7 @@ interface MatchRepository : JpaRepository<MatchEntity, Long>
 {
     fun existsById(Id:Long?):Boolean
     fun findAllByStatus(Status:String):List<MatchEntity>
-    fun findByLocation_id(Location:Long): Optional<MatchEntity>
+    fun findAllByDescription(Description:String):List<MatchEntity>
+//    fun findByLocation_id(Location:Long): Optional<MatchEntity>
 }
 
