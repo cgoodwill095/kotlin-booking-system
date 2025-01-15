@@ -4,26 +4,28 @@ import com.example.SportsBookingSystem.Service.MatchService
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
+import java.util.*
+import kotlin.NoSuchElementException
 
 @Controller
 @RequestMapping("/match")
 class MatchController(private val matchService: MatchService)
 {
     @GetMapping("/findAll")
-    fun findAll(): List<MatchEntity>
+    fun findAll(): ResponseEntity<List<MatchEntity>>
     {
         if(matchService.findAllMatches().isEmpty())
         {
-           throw NoSuchElementException("There is no matches registered")
+            return ResponseEntity.notFound().build()
         }
-        return matchService.findAllMatches()
+        return ResponseEntity.ok(matchService.findAllMatches())
     }
 
     @GetMapping("/getMatch{id}")
-    fun getmatchById(@PathVariable id:Long): ResponseEntity<MatchEntity>
+    fun getmatchById(@PathVariable id:Long): ResponseEntity<Optional<MatchEntity>>
     {
         val match = matchService.getmatchById(id)
-        if(match != null)
+        if(match.equals(null))
         {
             return ResponseEntity.notFound().build()
         }
@@ -49,7 +51,7 @@ class MatchController(private val matchService: MatchService)
     }
 
     @PutMapping("/updateMatch{id}")
-    fun updateMatch(@RequestBody match: MatchEntity, @PathVariable id:Long):ResponseEntity<MatchEntity>
+    fun updateMatch(@PathVariable id:Long, @RequestBody match: MatchEntity):ResponseEntity<MatchEntity>
     {
         val updateMatch = matchService.updateMatch(id, match)
         return ResponseEntity.ok(updateMatch)

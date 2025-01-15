@@ -31,10 +31,10 @@ class MatchRestController(private val matchService: MatchService)
     @GetMapping("/findById")
     fun findById(@RequestParam matchId: Int): MatchGetDTO
     {
-        val matchEntity: Optional<MatchEntity> = matchService.getmatchById(matchId.toLong())
-        if(matchEntity.isPresent)
+        val matchEntity: MatchEntity = matchService.findByMatchId(matchId.toLong())
+        if(!matchEntity.equals(null))
         {
-            return matchService.mapEnitiyToGetDTO(matchEntity.get())
+            return matchService.mapEnitiyToGetDTO(matchEntity)
         }
         throw NoSuchElementException("there are no matches, matching that id")
     }
