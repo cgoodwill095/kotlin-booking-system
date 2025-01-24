@@ -1,5 +1,6 @@
 package com.example.SportsBookingSystem.Service
 import com.example.SportsBookingSystem.DTO.Match.MatchGetDTO
+import com.example.SportsBookingSystem.DTO.Match.MatchPutDTO
 import com.example.SportsBookingSystem.Entity.MatchEntity
 import com.example.SportsBookingSystem.Mapper.MatchMapper
 import com.example.SportsBookingSystem.Repository.MatchRepository
@@ -116,5 +117,11 @@ class MatchService(private val matchRepository: MatchRepository,
     fun mapEnitiyToGetDTO(match: MatchEntity): MatchGetDTO
     {
         return matchMapper.mapEntityToBasicGetDTO(match)
+    }
+
+    @Transactional
+    fun mapEnitiyToPutDTO(match: MatchEntity): MatchPutDTO
+    {
+        return matchMapper.mapEntityToPutDTO(match)
     }
 }

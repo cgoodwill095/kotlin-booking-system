@@ -1,13 +1,9 @@
 package com.example.SportsBookingSystem.Mapper
 
 import com.example.SportsBookingSystem.DTO.Match.MatchGetDTO
+import com.example.SportsBookingSystem.DTO.Match.MatchPutDTO
 import com.example.SportsBookingSystem.Entity.MatchEntity
-import com.example.SportsBookingSystem.Entity.PlayerMatchLinkEntity
-import com.example.SportsBookingSystem.Entity.TeamMatchLinkEntity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
+
 import org.springframework.stereotype.Component
 
 @Component
@@ -24,6 +20,18 @@ class MatchMapper {
         matchGetDTO.teamMatchLinks = matchEntity.teamMatchLinks
         return matchGetDTO
     }
+    fun mapEntityToPutDTO(matchEntity: MatchEntity) : MatchPutDTO
+    {
+        val matchPutDTO = MatchPutDTO()
+        matchPutDTO.id = matchEntity.id
+        matchPutDTO.location_id = matchEntity.location_id
+        matchPutDTO.status = matchEntity.status
+        matchPutDTO.description = matchEntity.description
+        matchPutDTO.playerMatchLinks = matchEntity.playerMatchLinks
+        matchPutDTO.teamMatchLinks = matchEntity.teamMatchLinks
+        return matchPutDTO
+    }
+
 
 
 //    @Id

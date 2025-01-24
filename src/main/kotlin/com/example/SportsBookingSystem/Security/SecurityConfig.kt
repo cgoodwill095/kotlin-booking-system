@@ -1,5 +1,4 @@
 package com.example.SportsBookingSystem.Security
-
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
@@ -27,10 +26,11 @@ class SecurityConfig {
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
+
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
-            //csrf { disable() }
+            csrf { disable() }
             authorizeHttpRequests {
                 authorize("/webjars/**", permitAll)
                 authorize("/js/**", permitAll)
@@ -42,34 +42,9 @@ class SecurityConfig {
                 authorize("/api/**", permitAll)
                 authorize("/api", permitAll)
                 authorize("/admin", permitAll)
-                authorize(anyRequest, authenticated)
+                authorize(anyRequest, permitAll)
             }
-            formLogin {
-                loginPage = "/login"
-                failureUrl = "/login?error=true"
-                defaultSuccessUrl("/admin", true)
-                permitAll()
-            }
-            logout {
-                logoutUrl = "/logout"
-                logoutSuccessUrl = "/login?logout=true"
-                permitAll()
-            }
-        }
-        return http.build()
-    }
-
-
-
-    @Bean
-    @Order(2)
-    fun apiFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http {
-            securityMatcher("/api/**")
-            authorizeHttpRequests {
-                authorize(anyRequest, hasRole("ADMIN"))
-            }
-            httpBasic { }
+            httpBasic {  }
         }
         return http.build()
     }
@@ -79,7 +54,7 @@ class SecurityConfig {
         val roleHierarchy = RoleHierarchyImpl()
         //roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_MANAGER > ROLE_USER > ROLE_ANONYMOUS")
         roleHierarchy.setHierarchy(
-                """
+            """
             ROLE_ADMIN > ROLE_MANAGER
             ROLE_MANAGER > ROLE_USER
             ROLE_USER > ROLE_ANONYMOUS

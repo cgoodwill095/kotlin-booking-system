@@ -1,13 +1,12 @@
 package com.example.SportsBookingSystem.Rest.Controller
-
+import com.example.SportsBookingSystem.DTO.Match.MatchPutDTO
 import com.example.SportsBookingSystem.DTO.Match.MatchGetDTO
 import com.example.SportsBookingSystem.Entity.MatchEntity
 import com.example.SportsBookingSystem.Service.MatchService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import java.util.*
 import kotlin.NoSuchElementException
 
@@ -16,16 +15,28 @@ import kotlin.NoSuchElementException
 
 class MatchRestController(private val matchService: MatchService)
 {
-    //http://localhost:8090/api/match/
-    @PutMapping("/")
-    fun putMatch():Boolean
+    @PutMapping("/test")
+    fun putMatch(): Boolean
     {
         if(matchService.findAllMatches().isEmpty())
         {
-            throw NoSuchElementException("There are not matches registered")
+            throw NoSuchElementException("There is no players registered")
         }
         return true
     }
+    @PutMapping("/update")
+    fun updateMatch(@RequestParam matchId:Long, match:MatchEntity ):MatchPutDTO
+    {
+        val updatedEntity: MatchEntity = matchService.updateMatch(matchId, match)
+        val findID:MatchEntity = matchService.findByMatchId(matchId)
+        if(updatedEntity == null)
+        {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Match with id $matchId not found")
+        }
+        return matchService.mapEnitiyToPutDTO(updatedEntity)
+    }
+
+
 
     //http://localhost:8090/api/match/findById?matchId=3
     @GetMapping("/findById")
